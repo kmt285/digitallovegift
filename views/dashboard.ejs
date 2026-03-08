@@ -1,37 +1,41 @@
 <!DOCTYPE html>
 <html>
 <head><title>Dashboard</title><link rel="stylesheet" href="/style.css"></head>
-<body style="padding: 50px; text-align: center; background: #111;">
-    <h1 class="glow-text">Welcome, <%= user.username %>!</h1>
-    
-    <% if (role === 'admin') { %>
-        <a href="/admin" style="background: #ff69b4; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block; margin-bottom: 20px;">⚙️ Admin Panel သို့သွားရန်</a><br>
-    <% } %>
-
-    <div class="card" style="display: inline-block; padding: 30px; margin-top: 20px; max-width: 500px;">
-        <% if (user.isApproved) { %>
-            <h3 style="color: #98fb98;">✅ သင့်အကောင့်ကို အတည်ပြုပြီးပါပြီ။</h3>
-            
-            <% if (typeof userGift !== 'undefined' && userGift) { %>
-                <p style="color: white; margin-top: 20px;">🎉 သင့်ရဲ့ ဖန်တီးမှု အောင်မြင်ပါတယ်။ သင့်ချစ်သူဆီ ပို့ပေးရမယ့် Link ကတော့ အောက်ပါအတိုင်းဖြစ်ပါတယ်။</p>
-                <div style="background: #222; padding: 15px; border-radius: 5px; margin: 15px 0;">
-                    <a href="/gift/<%= userGift.uniqueUrl %>" target="_blank" style="color: #00ffff; text-decoration: none; font-size: 1.2rem; font-weight: bold;">
-                        /gift/<%= userGift.uniqueUrl %>
-                    </a>
-                </div>
-                <a href="/create-gift" style="background: transparent; color: #ff69b4; border: 1px solid #ff69b4; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">✏️ ဖန်တီးမှုကို ပြင်ဆင်မည်</a>
-            <% } else { %>
-                <p style="color: white;">သင့်ချစ်သူအတွက် လက်ဆောင်တစ်ခု စတင်ဖန်တီးနိုင်ပါပြီ။</p>
-                <a href="/create-gift" style="background: #ff69b4; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block; margin-top: 10px;">🚀 ဖန်တီးမှု စတင်ရန်</a>
-            <% } %>
-            
-        <% } else { %>
-            <h3 style="color: #ffb6c1;">⏳ Admin ၏ ခွင့်ပြုချက်ကို စောင့်ဆိုင်းနေပါသည်...</h3>
-            <p style="color: white;">ခွင့်ပြုချက်ရရှိပြီးမှသာ ဖန်တီးခွင့် ရရှိပါမည်။</p>
+<body>
+    <div class="container" style="text-align: center; padding-top: 50px;">
+        <h1 class="glow-text">Welcome, <%= user.username %>!</h1>
+        
+        <% if (role === 'admin') { %>
+            <a href="/admin" class="btn btn-outline" style="width: auto; margin-bottom: 30px;">⚙️ Admin Panel သို့သွားရန်</a>
         <% } %>
+
+        <div class="flex-center" style="min-height: auto;">
+            <div class="glass-card" style="max-width: 600px;">
+                <% if (user.isApproved) { %>
+                    <h3 style="color: #98fb98; margin-bottom: 15px;">✅ သင့်အကောင့်ကို အတည်ပြုပြီးပါပြီ။</h3>
+                    
+                    <% if (typeof userGift !== 'undefined' && userGift) { %>
+                        <p class="subtitle">🎉 သင့်ရဲ့ ဖန်တီးမှု အောင်မြင်ပါတယ်။ သင့်ချစ်သူဆီ ပို့ပေးရမယ့် Link ကတော့ အောက်ပါအတိုင်းဖြစ်ပါတယ်။</p>
+                        <div style="background: rgba(0,0,0,0.5); padding: 20px; border-radius: 10px; margin: 20px 0; word-break: break-all;">
+                            <a href="/gift/<%= userGift.uniqueUrl %>" target="_blank" style="color: #00ffff; text-decoration: none; font-size: 1.3rem; font-weight: bold;">
+                                yourdomain.com/gift/<%= userGift.uniqueUrl %>
+                            </a>
+                        </div>
+                        <a href="/create-gift" class="btn btn-outline" style="width: auto;">✏️ ဖန်တီးမှုကို ပြင်ဆင်မည်</a>
+                    <% } else { %>
+                        <p class="subtitle">သင့်ချစ်သူအတွက် လက်ဆောင်တစ်ခု စတင်ဖန်တီးနိုင်ပါပြီ။</p>
+                        <a href="/create-gift" class="btn btn-primary" style="margin-top: 15px;">🚀 ဖန်တီးမှု စတင်ရန်</a>
+                    <% } %>
+                    
+                <% } else { %>
+                    <h3 style="color: #ffb6c1; margin-bottom: 15px;">⏳ Admin ၏ ခွင့်ပြုချက်ကို စောင့်ဆိုင်းနေပါသည်...</h3>
+                    <p class="subtitle">ခွင့်ပြုချက်ရရှိပြီးမှသာ ဖန်တီးခွင့် ရရှိပါမည်။</p>
+                <% } %>
+            </div>
+        </div>
+        
+        <br><br>
+        <a href="/logout" style="color: gray; text-decoration: underline;">Logout ထွက်မည်</a>
     </div>
-    
-    <br><br>
-    <a href="/logout" style="color: gray; text-decoration: underline;">Logout ထွက်မည်</a>
 </body>
 </html>
