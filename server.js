@@ -70,10 +70,61 @@ app.get('/logout', (req, res) => {
     res.redirect('/login');
 });
 
+
+// Dashboard စာမျက်နှာ (Update)
 app.get('/dashboard', async (req, res) => {
     if (!req.session.userId) return res.redirect('/login');
     const user = await User.findById(req.session.userId);
-    res.render('dashboard', { user, role: req.session.role });
+    
+    // User ဖန်တီးထားသော လက်ဆောင် ရှိမရှိ ရှာဖွေခြင်း
+    const userGift = await Gift.findOne({ userId: user._id });
+    
+    res.render('dashboard', { user, role: req.session.role, userGift });
+});
+
+// လက်ဆောင် ဖန်တီးရန် စာမျက်နှာ (New)
+app.get('/create-gift', async (req, res) => {
+    if (!req.session.userId) return res.redirect('/login');
+    const user = await User.findById(req.session.userId);
+    
+    if (!user.isApproved) return res.send("<h2 style='color:red; text-align:center;'>Admin ခွင့်ပြုချက် မရသေးပါ။</h2>");
+    
+    const existingGift = await Gift.findOne({ userId: user._id });
+    res.render('create-gift', { existingGift, error: null });
+});
+
+// ဖန်တီးလိုက်သော Data များကို သိမ်းဆည်းရန် (New)
+app.post('/create-gift', async (req, res) => {
+    if (!req.session.userId) return res.redirect('/login');
+    
+    const { receiverName, countdownDate, messages, photos, uniqueUrl } = req.body;
+    
+    // စာသားနှင့် ဓာတ်ပုံ Link များကို တစ်ကြောင်းချင်းစီခွဲပြီး Array အဖြစ်ပြောင်းခြင်း
+    const msgArray = messages.split('\n').map(m => m.trim()).filter(m => m);
+    const photoArray = photos.split('\n').map(p => p.trim()).filter(p => p);
+
+    // URL နာမည်ကို တခြားသူ ယူထားခြင်း ရှိမရှိ စစ်ဆေးခြင်း
+    const existingUrl = await Gift.findOne({ uniqueUrl, userId: { $ne: req.session.userId } });
+    if (existingUrl) {
+        const existingGift = await Gift.findOne({ userId: req.session.userId });
+        return res.render('create-gift', { existingGift, error: 'ဒီ Link နာမည်ကို တခြားသူ အသုံးပြုထားပါသည်။ ကျေးဇူးပြု၍ နာမည်ပြောင်းပါ။' });
+    }
+
+    // Database ထဲသို့ သိမ်းဆည်းခြင်း (သို့) Update လုပ်ခြင်း
+    await Gift.findOneAndUpdate(
+        { userId: req.session.userId },
+        { userId: req.session.userId, receiverName, countdownDate, messages: msgArray, photos: photoArray, uniqueUrl },
+        { upsert: true, new: true }
+    );
+    res.redirect('/dashboard');
+});
+
+// ချစ်သူထံ ပို့မည့် သီးသန့် လက်ဆောင်စာမျက်နှာ (The Final Gift Page) (New)
+app.get('/gift/:uniqueUrl', async (req, res) => {
+    const gift = await Gift.findOne({ uniqueUrl: req.params.uniqueUrl });
+    if (!gift) return res.status(404).send("<h2 style='color:white; text-align:center;'>ဒီစာမျက်နှာကို မတွေ့ရှိပါ။</h2>");
+    
+    res.render('gift', { gift });
 });
 
 
