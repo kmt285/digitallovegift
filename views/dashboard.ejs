@@ -4,6 +4,11 @@
 <body style="padding: 50px; text-align: center; background: #111;">
     <h1 class="glow-text">Welcome, <%= user.username %>!</h1>
     
+    <% if (role === 'admin') { %>
+        <a href="/admin" style="background: #ff69b4; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block; margin-bottom: 20px; border: 1px solid white;">⚙️ Admin Panel သို့သွားရန်</a>
+        <br>
+    <% } %>
+
     <div class="card" style="display: inline-block; padding: 30px; margin-top: 20px;">
         <% if (user.isApproved) { %>
             <h3 style="color: #98fb98;">✅ သင့်အကောင့်ကို အတည်ပြုပြီးပါပြီ။</h3>
