@@ -1,16 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head><title>Login</title><link rel="stylesheet" href="/style.css"></head>
-<body style="display: flex; justify-content: center; align-items: center; background: #111;">
-    <div class="card" style="text-align: center; width: 300px;">
-        <h2 class="glow-text" style="font-size: 2rem;">Login</h2>
-        <% if (error) { %><p style="color: red;"><%= error %></p><% } %>
-        <form action="/login" method="POST">
-            <input type="text" name="username" placeholder="Username" required style="width: 90%; padding: 10px; margin: 10px 0; border-radius: 5px;"><br>
-            <input type="password" name="password" placeholder="Password" required style="width: 90%; padding: 10px; margin: 10px 0; border-radius: 5px;"><br>
-            <button type="submit" style="width: 100%;">Login</button>
-        </form>
-        <p><a href="/register" style="color: #ff69b4;">အကောင့်သစ်ဖွင့်ရန်</a></p>
+<body>
+    <div class="flex-center">
+        <div class="glass-card">
+            <h2 class="glow-text">Login</h2>
+            <% if (error) { %><p style="color: #ff4d4d; margin-bottom: 15px;"><%= error %></p><% } %>
+            <form action="/login" method="POST">
+                <div class="form-group">
+                    <input type="text" name="username" class="form-control" placeholder="Username" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" name="password" class="form-control" placeholder="Password" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Login</button>
+            </form>
+            <p style="margin-top: 20px;"><a href="/register" style="color: #ff69b4; text-decoration: none;">အကောင့်သစ်ဖွင့်ရန်</a></p>
+        </div>
     </div>
 </body>
 </html>
