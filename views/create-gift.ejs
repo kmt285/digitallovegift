@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head><title>Create Gift</title><link rel="stylesheet" href="/style.css"></head>
+<body style="padding: 20px; background: #111; color: white; text-align: center;">
+    <h1 class="glow-text">လက်ဆောင် ဖန်တီးရန် 🎁</h1>
+    <a href="/dashboard" style="color: #ff69b4; text-decoration: none;">⬅ Back to Dashboard</a><br><br>
+
+    <% if (typeof error !== 'undefined' && error) { %>
+        <p style="color: red; background: rgba(255,0,0,0.1); padding: 10px; border-radius: 5px; display: inline-block;"><%= error %></p>
+    <% } %>
+
+    <form action="/create-gift" method="POST" style="max-width: 500px; margin: auto; background: #222; padding: 25px; border-radius: 10px; text-align: left; border: 1px solid #333;">
+        
+        <label style="color: #ffb6c1; font-weight: bold;">၁။ ချစ်သူ၏ နာမည်:</label><br>
+        <input type="text" name="receiverName" value="<%= existingGift ? existingGift.receiverName : '' %>" required style="width: 95%; padding: 10px; margin: 10px 0; border-radius: 5px; border: none;"><br>
+
+        <label style="color: #ffb6c1; font-weight: bold;">၂။ မွေးနေ့ (သို့) ရည်ရွယ်ထားသောနေ့:</label><br>
+        <input type="date" name="countdownDate" required style="width: 95%; padding: 10px; margin: 10px 0; border-radius: 5px; border: none;"><br>
+
+        <label style="color: #ffb6c1; font-weight: bold;">၃။ ဆုတောင်းစာများ (တစ်ကြောင်းလျှင် တစ်ခုရေးပါ):</label><br>
+        <textarea name="messages" rows="4" style="width: 95%; padding: 10px; margin: 10px 0; border-radius: 5px; border: none;"><%= existingGift && existingGift.messages ? existingGift.messages.join('\n') : 'Happy Birthday ပါ ချစ်ချစ်\nအတူတူရှိနေပေးလို့ ကျေးဇူးပါ\nအရမ်းချစ်တယ်နော် ❤️' %></textarea><br>
+
+        <label style="color: #ffb6c1; font-weight: bold;">၄။ ဓာတ်ပုံ Link များ (တစ်ကြောင်းလျှင် ပုံတစ်ပုံ၏ Link ရေးပါ):</label><br>
+        <textarea name="photos" rows="4" style="width: 95%; padding: 10px; margin: 10px 0; border-radius: 5px; border: none;" placeholder="https://example.com/photo1.jpg&#10;https://example.com/photo2.jpg"><%= existingGift && existingGift.photos ? existingGift.photos.join('\n') : '' %></textarea><br>
+
+        <label style="color: #ffb6c1; font-weight: bold;">၅။ သင့်ချစ်သူအတွက် သီးသန့် Link နာမည် (အင်္ဂလိပ်လိုသာ):</label><br>
+        <p style="font-size: 0.8rem; color: gray; margin: 0;">ဥပမာ: mylove, su-su (Space မခြားရ)</p>
+        <input type="text" name="uniqueUrl" value="<%= existingGift ? existingGift.uniqueUrl : '' %>" required pattern="[a-zA-Z0-9-]+" style="width: 95%; padding: 10px; margin: 10px 0; border-radius: 5px; border: none;"><br>
+
+        <button type="submit" style="width: 100%; margin-top: 15px; padding: 12px; background: #ff69b4; color: white; font-size: 1.2rem; border-radius: 5px; border: none; cursor: pointer;">သိမ်းဆည်းမည်</button>
+    </form>
+    <br><br>
+</body>
+</html>
